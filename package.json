@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@clayui/button": "^3.5.0",
+    "@clayui/card": "^3.6.1",
     "@clayui/css": "^3.21.0",
     "@clayui/drop-down": "^3.8.1",
     "@clayui/icon": "^3.1.0",
