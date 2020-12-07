@@ -1,7 +1,7 @@
 import '../App.css';
 import "@clayui/css/lib/css/atlas.css";
 import Navbar from '../components/navbar';
-import CardRepo from '../components/cardRepo';
+import CardRepo from '../components/cardRepository';
 import { useEffect, useState } from 'react';
 import { index } from '../services/repositories';
 import ClayEmptyState from '@clayui/empty-state';
@@ -52,7 +52,7 @@ export default function Main() {
     }
 
     function handleListMode(mode) {
-        console.log(mode);
+        setListMode(mode);
     }
 
     return (
@@ -68,9 +68,10 @@ export default function Main() {
             <div className="container full-width pt-3">
                 <div className="row">
                     {repositories.map(_repository => (
-                        <div key={_repository.id} className="col-4">
+                        <div key={_repository.id} className={listMode == 'list' ? 'col-12' : 'col-4'}>
                             <CardRepo
                                 key={_repository.id}
+                                type={listMode}
                                 repository={_repository}
                                 onHandleStar={getRepositories}
                                 onDelete={getRepositories} />
