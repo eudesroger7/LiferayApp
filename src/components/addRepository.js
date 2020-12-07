@@ -4,10 +4,13 @@ import ClayForm, { ClayInput } from '@clayui/form';
 import { useState } from 'react';
 import { getRepository, store } from '../services/repositories';
 import { api } from '../services/api';
+import ClayAlert from '@clayui/alert';
+import ClayIcon from '@clayui/icon';
 
 export default function AddRepository({ onAdd, onCancel }) {
     const [btnDisabled, setBtnDisabled] = useState(true);
     const [repositoryName, setRepositoryName] = useState(true);
+    const [errorMessage, setErrorMessage] = useState('');
 
     function handleChange(event) {
         if (event.target.value.length >= 1) {
@@ -29,12 +32,14 @@ export default function AddRepository({ onAdd, onCancel }) {
             setRepositoryName('');
             onAdd();
         } catch (error) {
-            console.log(error.message);
+            setErrorMessage(error.message.includes('404') ? 'Repository not found' : 'Api error');
+            setBtnDisabled(true);
         }
     }
 
     function handleCancel() {
         setRepositoryName('');
+        setErrorMessage('');
         onCancel();
     }
 
@@ -56,6 +61,14 @@ export default function AddRepository({ onAdd, onCancel }) {
                             />
                         </ClayForm.Group>
                     </ClayCard.Row>
+                    {
+                        errorMessage && (
+                            <ClayCard.Row className="text-danger align-items-center">
+                                <ClayIcon symbol="exclamation-full" className="mr-3" fontSize="18"/>
+                                <h5>{errorMessage}</h5>
+                            </ClayCard.Row>
+                        )
+                    }
                     <ClayCard.Row className="align-items-center justify-content-end ">
                         <button className="btn btn-outline-secondary" onClick={handleCancel}>Cancel</button>
                         <button className="btn btn-primary ml-3" disabled={btnDisabled} onClick={handleSubmit}>Add</button>

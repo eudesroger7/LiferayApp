@@ -13,7 +13,7 @@ export default function Main() {
     const [search, setSearch] = useState('');
     const [sort, setSort] = useState('');
     const [filterByFavorite, setFilterByFavorite] = useState(false);
-    const [listMode, setListMode] = useState('card');
+    const [listMode, setListMode] = useState('grid');
 
     useEffect(() => {
         getRepositories();

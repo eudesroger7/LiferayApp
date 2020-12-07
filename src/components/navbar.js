@@ -12,7 +12,7 @@ export default function Navbar({ search, onSearch, onAdd, onFilterByFavorite, on
     const [menuSortActive, setMenuSortActive] = useState(false);
     const [menuAddActive, setMenuAddActive] = useState(false);
     const [filterByFavorite, setFilterByFavorite] = useState(false);
-    const [listMode, setListMode] = useState('card');
+    const [listMode, setListMode] = useState('grid');
 
     useEffect(() => {
         if (!search) {
@@ -122,13 +122,13 @@ export default function Navbar({ search, onSearch, onAdd, onFilterByFavorite, on
                     <li className="dropdown nav-item">
                         <ClayDropDown
                             trigger={<button className="btn btn-unstyled nav-btn nav-btn-monospaced mx-2">
-                                <ClayIcon symbol={listMode == 'card' ? 'cards2' : 'cards-full'} />
+                                <ClayIcon symbol={listMode == 'grid' ? 'cards2' : 'cards-full'} />
                             </button>}
                             active={menuListModeActive}
                             onActiveChange={setMenuListModeActive}
                         >
                             <ClayDropDown.ItemList>
-                                <ClayDropDown.Item onClick={() => handleListMode('card')}>
+                                <ClayDropDown.Item onClick={() => handleListMode('grid')}>
                                     <ClayIcon symbol="cards2" className="mr-2" />
                                     Cards
                                 </ClayDropDown.Item>
