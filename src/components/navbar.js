@@ -1,112 +1,117 @@
 import "@clayui/css/lib/css/atlas.css";
-import ClayIcon, { ClayIconSpriteContext } from '@clayui/icon';
+import ClayDropDown from '@clayui/drop-down';
+import { useState } from 'react';
+import { ClayInput } from '@clayui/form';
+import ModalAddRepository from './modalAddRepository';
+import ClayManagementToolbar from '@clayui/management-toolbar';
+import ClayButton from '@clayui/button';
 
-const spritemap = "https://cdn.jsdelivr.net/npm/@clayui/css/lib/images/icons/icons.svg";
+export default function Navbar({ onSearch, onAdd }) {
+    const [menuListTypeActive, setMenuListTypeActive] = useState(false);
+    const [menuOrderActive, setMenuOrderActive] = useState(false);
+    const [menuAddActive, setMenuAddActive] = useState(false);
 
-export default function Navbar() {
+    function handleSearch(event) {
+        onSearch(event.target.value);
+    }
+
     return (
-        <nav class="application-bar application-bar-light bg-white navbar navbar-expand-md">
-            <div class="container-fluid container-fluid-max-xl">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
+        <nav className="application-bar application-bar-light bg-white navbar navbar-expand-md">
+            <div className="container-fluid container-fluid-max-xl">
+                <ul className="navbar-nav">
+                    <li className="nav-item mr-3">
                         <img src="https://img.icons8.com/fluent-systems-regular/24/000000/github.png" />
-                        <p>Github Compares</p>
                     </li>
-                    <li class="nav-item">
-                        <button
-                            class="btn btn-unstyled nav-btn nav-btn-monospaced"
-                            type="button"
+                    <li className="nav-item mr-3">
+                        <div className="navbar-title navbar-text-truncate">Github Compares</div>
+                    </li>
+                    <li className="nav-item">
+                        <ClayDropDown
+                            trigger={<button className="btn">Filter and order</button>}
+                            active={menuOrderActive}
+                            onActiveChange={setMenuOrderActive}
                         >
-                            <svg
-                                class="lexicon-icon lexicon-icon-angle-left"
-                                focusable="false"
-                                role="presentation"
-                            >
-                                <use href="/images/icons/icons.svg#angle-left"></use>
-                            </svg>
-                        </button>
+                            <ClayDropDown.ItemList>
+                                <ClayDropDown.Item>
+                                    Cards
+                                </ClayDropDown.Item>
+                                <ClayDropDown.Item>
+                                    List
+                                </ClayDropDown.Item>
+                            </ClayDropDown.ItemList>
+                        </ClayDropDown>
+                    </li>
+
+                </ul>
+                <ul className="navbar-nav full-width mx-2">
+                    <li className="nav-item full-width">
+                        <ClayManagementToolbar.Search>
+                            <ClayInput.Group>
+                                <ClayInput.GroupItem>
+                                    <ClayInput
+                                        aria-label="Search"
+                                        className="form-control input-group-inset input-group-inset-after"
+                                        defaultValue="Red"
+                                        type="text"
+                                    />
+                                    <ClayInput.GroupInsetItem after tag="span">
+                                        <ClayButton
+                                            displayType="unstyled"
+                                            type="submit"
+                                        >
+                                            <img src="https://img.icons8.com/fluent-systems-regular/24/666666/search.png"/>
+                                        </ClayButton>
+                                    </ClayInput.GroupInsetItem>
+                                </ClayInput.GroupItem>
+                            </ClayInput.Group>
+                        </ClayManagementToolbar.Search>
                     </li>
                 </ul>
-                <div class="navbar-title navbar-text-truncate">My Application Name</div>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <button
-                            class="btn btn-unstyled nav-btn nav-btn-monospaced"
-                            type="button"
-                        >
-                            <svg
-                                class="lexicon-icon lexicon-icon-cog"
-                                focusable="false"
-                                role="presentation"
-                            >
-                                <use href="/images/icons/icons.svg#cog"></use>
-                            </svg>
+                <ul className="navbar-nav">
+                    <li className="nav-item">
+                        <button className="btn btn-unstyled nav-btn nav-btn-monospaced mx-2" type="button">
+                            <img src="https://img.icons8.com/fluent-systems-filled/24/000000/contrast--v1.png" />
                         </button>
                     </li>
-                    <li class="nav-item">
-                        <button
-                            class="btn btn-unstyled nav-btn nav-btn-monospaced"
-                            type="button"
-                        >
-                            <svg
-                                class="lexicon-icon lexicon-icon-plus"
-                                focusable="false"
-                                role="presentation"
-                            >
-                                <use href="/images/icons/icons.svg#plus"></use>
-                            </svg>
+                    <li className="nav-item">
+                        <button className="btn btn-unstyled nav-btn nav-btn-monospaced mx-2" type="button">
+                            <img src="https://img.icons8.com/fluent-systems-filled/24/000000/star.png" />
                         </button>
                     </li>
-                    <li class="nav-item">
-                        <button
-                            class="btn btn-unstyled nav-btn nav-btn-monospaced"
-                            type="button"
+                    <li className="dropdown nav-item">
+                        <ClayDropDown
+                            trigger={<button className="btn btn-unstyled nav-btn nav-btn-monospaced mx-2">
+                                <img src="https://img.icons8.com/fluent-systems-filled/24/000000/brick-wall.png" />
+                            </button>}
+                            active={menuListTypeActive}
+                            onActiveChange={setMenuListTypeActive}
                         >
-                            <svg
-                                class="lexicon-icon lexicon-icon-simulation-menu-closed"
-                                focusable="false"
-                                role="presentation"
-                            >
-                                <use
-                                    href="/images/icons/icons.svg#simulation-menu-closed"
-                                ></use>
-                            </svg>
-                        </button>
+                            <ClayDropDown.ItemList>
+                                <ClayDropDown.Item>
+                                    Cards
+                                </ClayDropDown.Item>
+                                <ClayDropDown.Item>
+                                    List
+                                </ClayDropDown.Item>
+                            </ClayDropDown.ItemList>
+                        </ClayDropDown>
                     </li>
-                    <li class="dropdown nav-item">
-                        <button
-                            aria-expanded="false"
-                            aria-haspopup="true"
-                            class="btn btn-unstyled dropdown-toggle nav-btn nav-btn-monospaced"
-                            data-toggle="dropdown"
-                            type="button"
+                    <li className="nav-item">
+                        <ClayDropDown
+                            trigger={
+                                <button className="btn btn-primary btn-monospaced ml-3" type="button">
+                                    <img src="https://img.icons8.com/fluent-systems-regular/24/ffffff/plus-math.png" />
+                                </button>
+                            }
+                            active={menuAddActive}
+                            onActiveChange={setMenuAddActive}
+                            className="modal-add-repository-dropdown"
                         >
-                            <svg
-                                class="lexicon-icon lexicon-icon-ellipsis-v"
-                                focusable="false"
-                                role="presentation"
-                            >
-                                <use href="/images/icons/icons.svg#ellipsis-v"></use>
-                            </svg>
-                        </button>
-                        <ul
-                            aria-labelledby="navbarDropdownMenuLink"
-                            class="dropdown-menu dropdown-menu-right"
-                        >
-                            <li><a class="dropdown-item" href="#1">Action</a></li>
-                            <li>
-                                <a class="dropdown-item" href="#1">Another action</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#1"
-                                >Something else here</a
-                                >
-                            </li>
-                            <li class="dropdown-divider"></li>
-                            <li>
-                                <a class="dropdown-item" href="#1">Separated link</a>
-                            </li>
-                        </ul>
+                            <ModalAddRepository onAdd={() => {
+                                onAdd();
+                                setMenuAddActive(false);
+                            }} />
+                        </ClayDropDown>
                     </li>
                 </ul>
             </div>
