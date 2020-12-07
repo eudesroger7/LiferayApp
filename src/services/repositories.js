@@ -12,6 +12,13 @@ export function index() {
 
 export function store(repository) {
     let data = index();
-    data.push(repository);
+    data.unshift(repository);
+    window.localStorage.setItem('repositories', JSON.stringify(data));
+}
+
+export function destroy(repository) {
+    let data = index();
+    const _index = data.findIndex(_repo => _repo.id == repository.id);
+    data.splice(_index, 1);
     window.localStorage.setItem('repositories', JSON.stringify(data));
 }

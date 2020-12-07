@@ -1,13 +1,28 @@
 import "@clayui/css/lib/css/atlas.css";
 import ClayCard from '@clayui/card';
 import ClayLabel from '@clayui/label';
-import ClayButton, { ClayButtonWithIcon } from '@clayui/button';
+import { isStarred, markAsStar, unmarkAsStar } from '../utils/utils';
+import { destroy } from '../services/repositories';
+import ModalConfirmDelete from './modalConfirmDelete';
+import { useState } from 'react';
 
 const spritemap = "https://cdn.jsdelivr.net/npm/@clayui/css/lib/images/icons/icons.svg";
 
-export default function CardRepo({ repository }) {
+export default function CardRepo({ repository, onHandleStar, onDelete }) {
 
-    if(!repository) return null;
+    const [showModalConfirmDelete, setShowModalConfirmDelete] = useState(false);
+
+    function handleStar() {
+        isStarred(repository.id) ? unmarkAsStar(repository.id) : markAsStar(repository.id);
+        onHandleStar();
+    }
+
+    function handleDelete() {
+        destroy(repository);
+        onDelete();
+    }
+
+    if (!repository) return null;
 
     return (
         <>
@@ -19,10 +34,10 @@ export default function CardRepo({ repository }) {
                             {repository.full_name}
                         </ClayCard.Description>
                         <div className="row">
-                            <button className="btn btn-unstyled nav-btn nav-btn-monospaced" type="button"                            >
-                                <img src="https://img.icons8.com/fluent-systems-regular/24/000000/star.png" />
+                            <button className="btn btn-unstyled nav-btn nav-btn-monospaced" type="button" onClick={handleStar}>
+                                <img src={`https://img.icons8.com/fluent-systems-${isStarred(repository.id) ? 'filled' : 'regular'}/24/000000/star.png`} />
                             </button>
-                            <button className="btn btn-unstyled nav-btn nav-btn-monospaced" type="button"                            >
+                            <button className="btn btn-unstyled nav-btn nav-btn-monospaced" type="button" onClick={() => setShowModalConfirmDelete(true)}>
                                 <img src="https://img.icons8.com/fluent-systems-regular/24/000000/delete.png" />
                             </button>
                         </div>
@@ -62,6 +77,15 @@ export default function CardRepo({ repository }) {
                     </ClayCard.Row>
                 </ClayCard.Body>
             </ClayCard>
+
+            {
+                showModalConfirmDelete && (
+                    <ModalConfirmDelete
+                        repository={repository}
+                        onCancel={setShowModalConfirmDelete}
+                        onConfirm={handleDelete} />
+                )
+            }
         </>
     )
 }

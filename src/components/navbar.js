@@ -2,7 +2,7 @@ import "@clayui/css/lib/css/atlas.css";
 import ClayDropDown from '@clayui/drop-down';
 import { useState } from 'react';
 import { ClayInput } from '@clayui/form';
-import ModalAddRepository from './modalAddRepository';
+import AddRepository from './addRepository';
 import ClayManagementToolbar from '@clayui/management-toolbar';
 import ClayButton from '@clayui/button';
 
@@ -59,7 +59,7 @@ export default function Navbar({ onSearch, onAdd }) {
                                             displayType="unstyled"
                                             type="submit"
                                         >
-                                            <img src="https://img.icons8.com/fluent-systems-regular/24/666666/search.png"/>
+                                            <img src="https://img.icons8.com/fluent-systems-regular/24/666666/search.png" />
                                         </ClayButton>
                                     </ClayInput.GroupInsetItem>
                                 </ClayInput.GroupItem>
@@ -107,10 +107,12 @@ export default function Navbar({ onSearch, onAdd }) {
                             onActiveChange={setMenuAddActive}
                             className="modal-add-repository-dropdown"
                         >
-                            <ModalAddRepository onAdd={() => {
-                                onAdd();
-                                setMenuAddActive(false);
-                            }} />
+                            <AddRepository
+                                onCancel={setMenuAddActive}
+                                onAdd={() => {
+                                    onAdd();
+                                    setMenuAddActive(false);
+                                }} />
                         </ClayDropDown>
                     </li>
                 </ul>

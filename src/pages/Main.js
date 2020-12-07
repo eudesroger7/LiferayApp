@@ -29,8 +29,12 @@ export default function Main() {
             <div className="container full-width pt-3">
                 <div className="row">
                     {repositories.map(_repository => (
-                        <div className="col-4">
-                            <CardRepo key={_repository.id} repository={_repository} />
+                        <div key={_repository.id} className="col-4">
+                            <CardRepo
+                                key={_repository.id}
+                                repository={_repository}
+                                onHandleStar={getRepositories}
+                                onDelete={getRepositories} />
                         </div>
                     ))}
                 </div>

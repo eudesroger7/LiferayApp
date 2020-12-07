@@ -4,7 +4,7 @@ import ClayForm, { ClayInput } from '@clayui/form';
 import { useState } from 'react';
 import { getRepository, store } from '../services/repositories';
 
-export default function ModalAddRepository({ onAdd }) {
+export default function AddRepository({ onAdd, onCancel }) {
     const [btnDisabled, setBtnDisabled] = useState(true);
     const [repository, setRepository] = useState(true);
 
@@ -21,10 +21,16 @@ export default function ModalAddRepository({ onAdd }) {
         try {
             const response = await getRepository(repository);
             store(response.data);
+            setRepository('');
             onAdd();
         } catch (error) {
             console.log(error.message);
         }
+    }
+
+    function handleCancel() {
+        setRepository('');
+        onCancel();
     }
 
     return (
@@ -46,7 +52,7 @@ export default function ModalAddRepository({ onAdd }) {
                         </ClayForm.Group>
                     </ClayCard.Row>
                     <ClayCard.Row className="align-items-center justify-content-end ">
-                        <button className="btn btn-outline-secondary">Cancel</button>
+                        <button className="btn btn-outline-secondary" onClick={handleCancel}>Cancel</button>
                         <button className="btn btn-primary ml-3" disabled={btnDisabled} onClick={handleSubmit}>Add</button>
                     </ClayCard.Row>
                 </ClayCard.Body>
