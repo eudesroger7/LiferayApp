@@ -1,7 +1,7 @@
 import "@clayui/css/lib/css/atlas.css";
 import ClayCard from '@clayui/card';
 import ClayLabel from '@clayui/label';
-import { isStarred, markAsStar, unmarkAsStar } from '../utils/utils';
+import { isFavorite, markAsFavorite, unmarkAsFavorite } from '../utils/utils';
 import { destroy } from '../services/repositories';
 import ModalConfirmDelete from './modalConfirmDelete';
 import { useState } from 'react';
@@ -13,7 +13,7 @@ export default function CardRepo({ repository, onHandleStar, onDelete }) {
     const [showModalConfirmDelete, setShowModalConfirmDelete] = useState(false);
 
     function handleStar() {
-        isStarred(repository.id) ? unmarkAsStar(repository.id) : markAsStar(repository.id);
+        isFavorite(repository.id) ? unmarkAsFavorite(repository.id) : markAsFavorite(repository.id);
         onHandleStar();
     }
 
@@ -35,7 +35,7 @@ export default function CardRepo({ repository, onHandleStar, onDelete }) {
                         </ClayCard.Description>
                         <div className="row">
                             <button className="btn btn-unstyled nav-btn nav-btn-monospaced" type="button" onClick={handleStar}>
-                                <img src={`https://img.icons8.com/fluent-systems-${isStarred(repository.id) ? 'filled' : 'regular'}/24/000000/star.png`} />
+                                <img src={`https://img.icons8.com/fluent-systems-${isFavorite(repository.id) ? 'filled' : 'regular'}/24/000000/star.png`} />
                             </button>
                             <button className="btn btn-unstyled nav-btn nav-btn-monospaced" type="button" onClick={() => setShowModalConfirmDelete(true)}>
                                 <img src="https://img.icons8.com/fluent-systems-regular/24/000000/delete.png" />

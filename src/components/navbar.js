@@ -1,18 +1,31 @@
 import "@clayui/css/lib/css/atlas.css";
 import ClayDropDown from '@clayui/drop-down';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ClayInput } from '@clayui/form';
 import AddRepository from './addRepository';
 import ClayManagementToolbar from '@clayui/management-toolbar';
 import ClayButton from '@clayui/button';
 
-export default function Navbar({ onSearch, onAdd }) {
+export default function Navbar({ search, onSearch, onAdd, onFilterByFavorite }) {
     const [menuListTypeActive, setMenuListTypeActive] = useState(false);
     const [menuOrderActive, setMenuOrderActive] = useState(false);
     const [menuAddActive, setMenuAddActive] = useState(false);
+    const [filterByFavorite, setFilterByFavorite] = useState(false);
+
+    useEffect(() => {
+        if (!search) {
+            document.querySelector('#searchInput').value = '';
+        }
+    }, [search]);
 
     function handleSearch(event) {
         onSearch(event.target.value);
+    }
+
+    function handleFilterByFavorite() {
+        const value = !filterByFavorite;
+        setFilterByFavorite(value);
+        onFilterByFavorite(value);
     }
 
     return (
@@ -51,8 +64,11 @@ export default function Navbar({ onSearch, onAdd }) {
                                     <ClayInput
                                         aria-label="Search"
                                         className="form-control input-group-inset input-group-inset-after"
-                                        defaultValue="Red"
                                         type="text"
+                                        defaultValue={search}
+                                        onKeyUp={handleSearch}
+                                        id="searchInput"
+                                        placeholder="Search"
                                     />
                                     <ClayInput.GroupInsetItem after tag="span">
                                         <ClayButton
@@ -74,8 +90,8 @@ export default function Navbar({ onSearch, onAdd }) {
                         </button>
                     </li>
                     <li className="nav-item">
-                        <button className="btn btn-unstyled nav-btn nav-btn-monospaced mx-2" type="button">
-                            <img src="https://img.icons8.com/fluent-systems-filled/24/000000/star.png" />
+                        <button className="btn btn-unstyled nav-btn nav-btn-monospaced mx-2" type="button" onClick={handleFilterByFavorite}>
+                            <img src={`https://img.icons8.com/fluent-systems-${filterByFavorite ? 'filled' : 'regular'}/24/000000/star.png`} />
                         </button>
                     </li>
                     <li className="dropdown nav-item">

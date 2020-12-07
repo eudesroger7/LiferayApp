@@ -5,27 +5,51 @@ import CardRepo from '../components/cardRepo';
 import { useEffect, useState } from 'react';
 import { index } from '../services/repositories';
 import ClayEmptyState from '@clayui/empty-state';
+import { isFavorite } from '../utils/utils';
+import ClayButton from '@clayui/button';
 
 export default function Main() {
     const [repositories, setRepositories] = useState([]);
     const [search, setSearch] = useState('');
     const [sort, setSort] = useState('');
-    const [showModalAdd, setShowModalAdd] = useState(false);
+    const [filterByFavorite, setFilterByFavorite] = useState(false);
 
     useEffect(() => {
         getRepositories();
-    }, []);
+    }, [search, filterByFavorite]);
 
     function getRepositories() {
-        setRepositories(index());
+        let data = index();
+        if (filterByFavorite) {
+            data = data.filter(_repository => isFavorite(_repository.id));
+        }
+        if (search) {
+            const term = search.toLowerCase();
+            data = data.filter(_repository => _repository.full_name && _repository.full_name.toLowerCase().includes(term));
+        }
+        setRepositories(data);
     }
 
     function handleSearch(value) {
+        setSearch(value);
+        console.log(value);
+    }
+
+    async function handleFilterByFavorite(value) {
+        setFilterByFavorite(value);
+    }
+
+    function handleClearFilter() {
+        setSearch('');
     }
 
     return (
         <>
-            <Navbar onSearch={handleSearch} onAdd={getRepositories} />
+            <Navbar
+                search={search}
+                onSearch={handleSearch}
+                onAdd={getRepositories}
+                onFilterByFavorite={handleFilterByFavorite} />
 
             <div className="container full-width pt-3">
                 <div className="row">
@@ -43,7 +67,9 @@ export default function Main() {
                             description="Add some repositories by clicking add new repository"
                             imgSrc="/empty.svg"
                             title="There is still nothing here"
-                        />
+                        >
+                            <ClayButton displayType="secondary" onClick={handleClearFilter}>Clear Filter</ClayButton>
+                        </ClayEmptyState>
                     )}
                 </div>
             </div>

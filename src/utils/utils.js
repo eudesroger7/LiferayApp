@@ -1,21 +1,21 @@
-export function isStarred(repositoryId) {
-    const starreds = getStarreds();
-    return starreds.includes(repositoryId);
+export function isFavorite(repositoryId) {
+    const favorites = getFavorites();
+    return favorites.includes(repositoryId);
 }
 
-export function getStarreds() {
-    const starreds = window.localStorage.getItem('starreds');
-    return starreds ? JSON.parse(starreds) : [];
+export function getFavorites() {
+    const favorites = window.localStorage.getItem('favorites');
+    return favorites ? JSON.parse(favorites) : [];
 }
 
-export function markAsStar(repositoryId) {
-    let starreds = getStarreds();
-    starreds.push(repositoryId);
-    window.localStorage.setItem('starreds', JSON.stringify(starreds));
+export function markAsFavorite(repositoryId) {
+    let favorites = getFavorites();
+    favorites.push(repositoryId);
+    window.localStorage.setItem('favorites', JSON.stringify(favorites));
 }
 
-export function unmarkAsStar(repositoryId) {
-    let starreds = getStarreds();
-    starreds.splice(starreds.indexOf(repositoryId), 1);
-    window.localStorage.setItem('starreds', JSON.stringify(starreds));
+export function unmarkAsFavorite(repositoryId) {
+    let favorites = getFavorites();
+    favorites.splice(favorites.indexOf(repositoryId), 1);
+    window.localStorage.setItem('favorites', JSON.stringify(favorites));
 }
