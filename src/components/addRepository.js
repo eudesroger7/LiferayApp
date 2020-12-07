@@ -3,15 +3,16 @@ import ClayCard from '@clayui/card';
 import ClayForm, { ClayInput } from '@clayui/form';
 import { useState } from 'react';
 import { getRepository, store } from '../services/repositories';
+import { api } from '../services/api';
 
 export default function AddRepository({ onAdd, onCancel }) {
     const [btnDisabled, setBtnDisabled] = useState(true);
-    const [repository, setRepository] = useState(true);
+    const [repositoryName, setRepositoryName] = useState(true);
 
     function handleChange(event) {
         if (event.target.value.length >= 1) {
             setBtnDisabled(false);
-            setRepository(event.target.value);
+            setRepositoryName(event.target.value);
         } else {
             setBtnDisabled(true);
         }
@@ -19,9 +20,13 @@ export default function AddRepository({ onAdd, onCancel }) {
 
     async function handleSubmit() {
         try {
-            const response = await getRepository(repository);
-            store(response.data);
-            setRepository('');
+            const responseRepository = await getRepository(repositoryName);
+            let repository = responseRepository.data;
+            const responseCommits = await api.get(responseRepository.data.commits_url.replace('{/sha}', ''));
+            repository.last_commit = (responseCommits.data && responseCommits.data.length > 0) ? responseCommits.data[0] : {};
+            repository.last_commit_date = repository.last_commit.commit ? repository.last_commit.commit.author.date : null;
+            store(repository);
+            setRepositoryName('');
             onAdd();
         } catch (error) {
             console.log(error.message);
@@ -29,7 +34,7 @@ export default function AddRepository({ onAdd, onCancel }) {
     }
 
     function handleCancel() {
-        setRepository('');
+        setRepositoryName('');
         onCancel();
     }
 

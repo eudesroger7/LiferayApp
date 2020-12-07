@@ -1,7 +1,7 @@
 import { api } from './api';
 
-export async function getRepository(path) {
-    const response = await api.get(`/repos/${path}`);
+export async function getRepository(name) {
+    const response = await api.get(`/repos/${name}`);
     return response;
 }
 

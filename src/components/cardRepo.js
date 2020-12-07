@@ -63,7 +63,7 @@ export default function CardRepo({ repository, onHandleStar, onDelete }) {
                                 </ClayCard.Row>
                                 <ClayCard.Row className="align-items-center">
                                     <ClayCard.Description displayType="title" className="mr-2">Last Commit</ClayCard.Description>
-                                    <ClayCard.Description displayType="text">100</ClayCard.Description>
+                                    <ClayCard.Description displayType="text">{repository.last_commit_date}</ClayCard.Description>
                                 </ClayCard.Row>
                                 <ClayCard.Row className="align-items-center">
                                     <ClayCard.Description displayType="title" className="mr-2">License</ClayCard.Description>

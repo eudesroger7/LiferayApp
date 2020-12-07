@@ -6,9 +6,9 @@ import AddRepository from './addRepository';
 import ClayManagementToolbar from '@clayui/management-toolbar';
 import ClayButton from '@clayui/button';
 
-export default function Navbar({ search, onSearch, onAdd, onFilterByFavorite }) {
+export default function Navbar({ search, onSearch, onAdd, onFilterByFavorite, onSort }) {
     const [menuListTypeActive, setMenuListTypeActive] = useState(false);
-    const [menuOrderActive, setMenuOrderActive] = useState(false);
+    const [menuSortActive, setMenuSortActive] = useState(false);
     const [menuAddActive, setMenuAddActive] = useState(false);
     const [filterByFavorite, setFilterByFavorite] = useState(false);
 
@@ -28,6 +28,11 @@ export default function Navbar({ search, onSearch, onAdd, onFilterByFavorite }) 
         onFilterByFavorite(value);
     }
 
+    function handleSort(menuOption) {
+        onSort(menuOption.param);
+        setMenuSortActive(false);
+    }
+
     return (
         <nav className="application-bar application-bar-light bg-white navbar navbar-expand-md">
             <div className="container-fluid container-fluid-max-xl">
@@ -41,16 +46,24 @@ export default function Navbar({ search, onSearch, onAdd, onFilterByFavorite }) 
                     <li className="nav-item">
                         <ClayDropDown
                             trigger={<button className="btn">Filter and order</button>}
-                            active={menuOrderActive}
-                            onActiveChange={setMenuOrderActive}
+                            active={menuSortActive}
+                            onActiveChange={setMenuSortActive}
                         >
+                            <ClayDropDown.Caption><strong>Order By</strong></ClayDropDown.Caption>
                             <ClayDropDown.ItemList>
-                                <ClayDropDown.Item>
-                                    Cards
-                                </ClayDropDown.Item>
-                                <ClayDropDown.Item>
-                                    List
-                                </ClayDropDown.Item>
+                                {
+                                    [
+                                        { param: 'stargazers_count', title: 'Stars' },
+                                        { param: 'forks_count', title: 'Forks' },
+                                        { param: 'open_issues_count', title: 'Open Issues' },
+                                        { param: 'created_at', title: 'Age' },
+                                        { param: 'last_commit_date', title: 'Last commit' }
+                                    ].map(_menuOption => (
+                                        <ClayDropDown.Item key={_menuOption.param} onClick={() => handleSort(_menuOption)}>
+                                            {_menuOption.title}
+                                        </ClayDropDown.Item>
+                                    ))
+                                }
                             </ClayDropDown.ItemList>
                         </ClayDropDown>
                     </li>

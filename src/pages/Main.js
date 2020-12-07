@@ -16,7 +16,7 @@ export default function Main() {
 
     useEffect(() => {
         getRepositories();
-    }, [search, filterByFavorite]);
+    }, [search, filterByFavorite, sort]);
 
     function getRepositories() {
         let data = index();
@@ -27,12 +27,14 @@ export default function Main() {
             const term = search.toLowerCase();
             data = data.filter(_repository => _repository.full_name && _repository.full_name.toLowerCase().includes(term));
         }
+        if (sort) {
+            data = data.sort((a, b) => a[sort] < b[sort] ? 1 : -1);
+        }
         setRepositories(data);
     }
 
     function handleSearch(value) {
         setSearch(value);
-        console.log(value);
     }
 
     async function handleFilterByFavorite(value) {
@@ -41,6 +43,11 @@ export default function Main() {
 
     function handleClearFilter() {
         setSearch('');
+        setSort('');
+    }
+
+    function handleSort(value) {
+        setSort(value);
     }
 
     return (
@@ -49,6 +56,7 @@ export default function Main() {
                 search={search}
                 onSearch={handleSearch}
                 onAdd={getRepositories}
+                onSort={handleSort}
                 onFilterByFavorite={handleFilterByFavorite} />
 
             <div className="container full-width pt-3">
