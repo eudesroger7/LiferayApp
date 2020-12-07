@@ -1,7 +1,6 @@
 import "@clayui/css/lib/css/atlas.css";
 import ClayModal, { useModal } from '@clayui/modal';
 import ClayButton from '@clayui/button';
-import { useState } from 'react';
 
 export default function ModalConfirmDelete({ repository, onConfirm, onCancel }) {
     const { observer, onClose } = useModal({

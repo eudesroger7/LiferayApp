@@ -1,7 +1,7 @@
 import '../App.css';
 import "@clayui/css/lib/css/atlas.css";
-import Navbar from '../components/navbar';
-import CardRepo from '../components/cardRepository';
+import Navbar from '../components/Navbar';
+import CardRepo from '../components/CardRepository';
 import { useEffect, useState } from 'react';
 import { index } from '../services/repositories';
 import ClayEmptyState from '@clayui/empty-state';
@@ -59,6 +59,7 @@ export default function Main() {
         <>
             <Navbar
                 search={search}
+                setSearch={setSearch}
                 onSearch={handleSearch}
                 onAdd={getRepositories}
                 onSort={handleSort}
@@ -83,7 +84,9 @@ export default function Main() {
                             imgSrc="/empty.svg"
                             title="There is still nothing here"
                         >
-                            <ClayButton displayType="secondary" onClick={handleClearFilter}>Clear Filter</ClayButton>
+                            {
+                                (sort || search) && <ClayButton displayType="secondary" onClick={handleClearFilter}>Clear Filter</ClayButton>
+                            }
                         </ClayEmptyState>
                     )}
                 </div>

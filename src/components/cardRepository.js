@@ -3,7 +3,7 @@ import ClayCard from '@clayui/card';
 import ClayLabel from '@clayui/label';
 import { isFavorite, markAsFavorite, unmarkAsFavorite } from '../utils/utils';
 import { destroy } from '../services/repositories';
-import ModalConfirmDelete from './modalConfirmDelete';
+import ModalConfirmDelete from './ModalConfirmDelete';
 import { useState } from 'react';
 import ClayIcon from '@clayui/icon';
 

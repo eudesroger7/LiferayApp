@@ -62,11 +62,3 @@
 .full-width {
   width: 100% !important;
 }
-
-.empty-state-container {
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-}

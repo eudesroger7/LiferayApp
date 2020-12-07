@@ -2,26 +2,20 @@ import "@clayui/css/lib/css/atlas.css";
 import ClayDropDown from '@clayui/drop-down';
 import { useEffect, useState } from 'react';
 import { ClayInput } from '@clayui/form';
-import AddRepository from './addRepository';
+import AddRepository from './AddRepository';
 import ClayManagementToolbar from '@clayui/management-toolbar';
 import ClayButton from '@clayui/button';
 import ClayIcon from '@clayui/icon';
 
-export default function Navbar({ search, onSearch, onAdd, onFilterByFavorite, onSort, onListModeChange }) {
+export default function Navbar({ search, setSearch, onAdd, onFilterByFavorite, onSort, onListModeChange }) {
     const [menuListModeActive, setMenuListModeActive] = useState(false);
     const [menuSortActive, setMenuSortActive] = useState(false);
     const [menuAddActive, setMenuAddActive] = useState(false);
     const [filterByFavorite, setFilterByFavorite] = useState(false);
     const [listMode, setListMode] = useState('grid');
 
-    useEffect(() => {
-        if (!search) {
-            document.querySelector('#searchInput').value = '';
-        }
-    }, [search]);
-
     function handleSearch(event) {
-        onSearch(event.target.value);
+        setSearch(event.target.value);
     }
 
     function handleFilterByFavorite() {
@@ -91,7 +85,8 @@ export default function Navbar({ search, onSearch, onAdd, onFilterByFavorite, on
                                         className="form-control input-group-inset input-group-inset-after"
                                         type="text"
                                         defaultValue={search}
-                                        onKeyUp={handleSearch}
+                                        value={search}
+                                        onChange={handleSearch}
                                         id="searchInput"
                                         placeholder="Search"
                                     />
