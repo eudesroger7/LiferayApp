@@ -4,6 +4,7 @@ import Navbar from '../components/navbar';
 import CardRepo from '../components/cardRepo';
 import { useEffect, useState } from 'react';
 import { index } from '../services/repositories';
+import ClayEmptyState from '@clayui/empty-state';
 
 export default function Main() {
     const [repositories, setRepositories] = useState([]);
@@ -37,6 +38,13 @@ export default function Main() {
                                 onDelete={getRepositories} />
                         </div>
                     ))}
+                    {repositories.length < 1 && (
+                        <ClayEmptyState
+                            description="Add some repositories by clicking add new repository"
+                            imgSrc="/empty.svg"
+                            title="There is still nothing here"
+                        />
+                    )}
                 </div>
             </div>
         </>

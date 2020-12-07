@@ -7,6 +7,7 @@
     "@clayui/card": "^3.6.1",
     "@clayui/css": "^3.21.0",
     "@clayui/drop-down": "^3.8.1",
+    "@clayui/empty-state": "^3.2.0",
     "@clayui/form": "^3.13.0",
     "@clayui/icon": "^3.1.0",
     "@clayui/management-toolbar": "^3.2.3",
