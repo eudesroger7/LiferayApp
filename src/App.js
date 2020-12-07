@@ -1,8 +1,12 @@
+import { ClayIconSpriteContext } from '@clayui/icon';
 import Main from './pages/Main';
+const spritemapUrl = "/icons.svg";
 
 function App() {
   return (
-    <Main />
+    <ClayIconSpriteContext.Provider value={spritemapUrl}>
+      <Main />
+    </ClayIconSpriteContext.Provider>
   );
 }
 

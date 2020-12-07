@@ -5,12 +5,14 @@ import { ClayInput } from '@clayui/form';
 import AddRepository from './addRepository';
 import ClayManagementToolbar from '@clayui/management-toolbar';
 import ClayButton from '@clayui/button';
+import ClayIcon from '@clayui/icon';
 
-export default function Navbar({ search, onSearch, onAdd, onFilterByFavorite, onSort }) {
-    const [menuListTypeActive, setMenuListTypeActive] = useState(false);
+export default function Navbar({ search, onSearch, onAdd, onFilterByFavorite, onSort, onListModeChange }) {
+    const [menuListModeActive, setMenuListModeActive] = useState(false);
     const [menuSortActive, setMenuSortActive] = useState(false);
     const [menuAddActive, setMenuAddActive] = useState(false);
     const [filterByFavorite, setFilterByFavorite] = useState(false);
+    const [listMode, setListMode] = useState('card');
 
     useEffect(() => {
         if (!search) {
@@ -33,38 +35,48 @@ export default function Navbar({ search, onSearch, onAdd, onFilterByFavorite, on
         setMenuSortActive(false);
     }
 
+    function handleListMode(mode) {
+        setListMode(mode);
+        onListModeChange(mode);
+        setMenuListModeActive(false);
+    }
+
     return (
         <nav className="application-bar application-bar-light bg-white navbar navbar-expand-md">
             <div className="container-fluid container-fluid-max-xl">
                 <ul className="navbar-nav">
                     <li className="nav-item mr-3">
-                        <img src="https://img.icons8.com/fluent-systems-regular/24/000000/github.png" />
+                        <img src="https://img.icons8.com/fluent-systems-filled/24/000000/github.png" />
                     </li>
                     <li className="nav-item mr-3">
-                        <div className="navbar-title navbar-text-truncate">Github Compares</div>
+                        <div className="navbar-title navbar-text-truncate">Github Compare</div>
                     </li>
                     <li className="nav-item">
                         <ClayDropDown
-                            trigger={<button className="btn">Filter and order</button>}
+                            trigger={<button className="btn">
+                                Filter and order
+                                <ClayIcon symbol="caret-bottom" className="ml-2" />
+                            </button>}
                             active={menuSortActive}
                             onActiveChange={setMenuSortActive}
                         >
-                            <ClayDropDown.Caption><strong>Order By</strong></ClayDropDown.Caption>
-                            <ClayDropDown.ItemList>
-                                {
-                                    [
-                                        { param: 'stargazers_count', title: 'Stars' },
-                                        { param: 'forks_count', title: 'Forks' },
-                                        { param: 'open_issues_count', title: 'Open Issues' },
-                                        { param: 'created_at', title: 'Age' },
-                                        { param: 'last_commit_date', title: 'Last commit' }
-                                    ].map(_menuOption => (
-                                        <ClayDropDown.Item key={_menuOption.param} onClick={() => handleSort(_menuOption)}>
-                                            {_menuOption.title}
-                                        </ClayDropDown.Item>
-                                    ))
-                                }
-                            </ClayDropDown.ItemList>
+                            <ClayDropDown.Group header="Order">
+                                <ClayDropDown.ItemList>
+                                    {
+                                        [
+                                            { param: 'stargazers_count', title: 'Stars' },
+                                            { param: 'forks_count', title: 'Forks' },
+                                            { param: 'open_issues_count', title: 'Open Issues' },
+                                            { param: 'created_at', title: 'Age' },
+                                            { param: 'last_commit_date', title: 'Last commit' }
+                                        ].map(_menuOption => (
+                                            <ClayDropDown.Item key={_menuOption.param} onClick={() => handleSort(_menuOption)}>
+                                                {_menuOption.title}
+                                            </ClayDropDown.Item>
+                                        ))
+                                    }
+                                </ClayDropDown.ItemList>
+                            </ClayDropDown.Group>
                         </ClayDropDown>
                     </li>
 
@@ -88,7 +100,7 @@ export default function Navbar({ search, onSearch, onAdd, onFilterByFavorite, on
                                             displayType="unstyled"
                                             type="submit"
                                         >
-                                            <img src="https://img.icons8.com/fluent-systems-regular/24/666666/search.png" />
+                                            <ClayIcon symbol="search" />
                                         </ClayButton>
                                     </ClayInput.GroupInsetItem>
                                 </ClayInput.GroupItem>
@@ -99,27 +111,29 @@ export default function Navbar({ search, onSearch, onAdd, onFilterByFavorite, on
                 <ul className="navbar-nav">
                     <li className="nav-item">
                         <button className="btn btn-unstyled nav-btn nav-btn-monospaced mx-2" type="button">
-                            <img src="https://img.icons8.com/fluent-systems-filled/24/000000/contrast--v1.png" />
+                            <ClayIcon symbol="adjust" />
                         </button>
                     </li>
                     <li className="nav-item">
                         <button className="btn btn-unstyled nav-btn nav-btn-monospaced mx-2" type="button" onClick={handleFilterByFavorite}>
-                            <img src={`https://img.icons8.com/fluent-systems-${filterByFavorite ? 'filled' : 'regular'}/24/000000/star.png`} />
+                            <ClayIcon symbol={filterByFavorite ? 'star' : 'star-o'} />
                         </button>
                     </li>
                     <li className="dropdown nav-item">
                         <ClayDropDown
                             trigger={<button className="btn btn-unstyled nav-btn nav-btn-monospaced mx-2">
-                                <img src="https://img.icons8.com/fluent-systems-filled/24/000000/brick-wall.png" />
+                                <ClayIcon symbol={listMode == 'card' ? 'cards2' : 'cards-full'} />
                             </button>}
-                            active={menuListTypeActive}
-                            onActiveChange={setMenuListTypeActive}
+                            active={menuListModeActive}
+                            onActiveChange={setMenuListModeActive}
                         >
                             <ClayDropDown.ItemList>
-                                <ClayDropDown.Item>
+                                <ClayDropDown.Item onClick={() => handleListMode('card')}>
+                                    <ClayIcon symbol="cards2" className="mr-2" />
                                     Cards
                                 </ClayDropDown.Item>
-                                <ClayDropDown.Item>
+                                <ClayDropDown.Item onClick={() => handleListMode('list')}>
+                                    <ClayIcon symbol="cards-full" className="mr-2" />
                                     List
                                 </ClayDropDown.Item>
                             </ClayDropDown.ItemList>
@@ -129,7 +143,7 @@ export default function Navbar({ search, onSearch, onAdd, onFilterByFavorite, on
                         <ClayDropDown
                             trigger={
                                 <button className="btn btn-primary btn-monospaced ml-3" type="button">
-                                    <img src="https://img.icons8.com/fluent-systems-regular/24/ffffff/plus-math.png" />
+                                    <ClayIcon symbol="plus" />
                                 </button>
                             }
                             active={menuAddActive}

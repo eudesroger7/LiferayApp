@@ -5,8 +5,7 @@ import { isFavorite, markAsFavorite, unmarkAsFavorite } from '../utils/utils';
 import { destroy } from '../services/repositories';
 import ModalConfirmDelete from './modalConfirmDelete';
 import { useState } from 'react';
-
-const spritemap = "https://cdn.jsdelivr.net/npm/@clayui/css/lib/images/icons/icons.svg";
+import ClayIcon from '@clayui/icon';
 
 export default function CardRepo({ repository, onHandleStar, onDelete }) {
 
@@ -35,10 +34,10 @@ export default function CardRepo({ repository, onHandleStar, onDelete }) {
                         </ClayCard.Description>
                         <div className="row">
                             <button className="btn btn-unstyled nav-btn nav-btn-monospaced" type="button" onClick={handleStar}>
-                                <img src={`https://img.icons8.com/fluent-systems-${isFavorite(repository.id) ? 'filled' : 'regular'}/24/000000/star.png`} />
+                                <ClayIcon symbol={isFavorite(repository.id)? 'star' : 'star-o'} />
                             </button>
                             <button className="btn btn-unstyled nav-btn nav-btn-monospaced" type="button" onClick={() => setShowModalConfirmDelete(true)}>
-                                <img src="https://img.icons8.com/fluent-systems-regular/24/000000/delete.png" />
+                            <ClayIcon symbol="trash" />
                             </button>
                         </div>
                     </ClayCard.Row>
@@ -70,7 +69,7 @@ export default function CardRepo({ repository, onHandleStar, onDelete }) {
                                     <ClayCard.Description displayType="text">{repository.license && repository.license.name}</ClayCard.Description>
                                 </ClayCard.Row>
                                 <ClayCard.Caption>
-                                    <ClayLabel displayType="warning">{repository.language}</ClayLabel>
+                                    {repository.language && <ClayLabel displayType="warning">{repository.language}</ClayLabel>}
                                 </ClayCard.Caption>
                             </section>
                         </div>

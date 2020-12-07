@@ -13,6 +13,7 @@ export default function Main() {
     const [search, setSearch] = useState('');
     const [sort, setSort] = useState('');
     const [filterByFavorite, setFilterByFavorite] = useState(false);
+    const [listMode, setListMode] = useState('card');
 
     useEffect(() => {
         getRepositories();
@@ -50,6 +51,10 @@ export default function Main() {
         setSort(value);
     }
 
+    function handleListMode(mode) {
+        console.log(mode);
+    }
+
     return (
         <>
             <Navbar
@@ -57,6 +62,7 @@ export default function Main() {
                 onSearch={handleSearch}
                 onAdd={getRepositories}
                 onSort={handleSort}
+                onListModeChange={handleListMode}
                 onFilterByFavorite={handleFilterByFavorite} />
 
             <div className="container full-width pt-3">
