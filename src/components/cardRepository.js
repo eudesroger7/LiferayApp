@@ -146,7 +146,11 @@ export default function CardRepository({ type, repository, onHandleStar, onDelet
                                 </div>
                             </ClayCard.Row>
                             <ClayCard.Caption>
-                                {repository.language && <ClayLabel displayType="warning">{repository.language}</ClayLabel>}
+                                {
+                                    repository.languages && Object.keys(repository.languages).map(_key => (
+                                        <ClayLabel key={_key} displayType="warning">{_key}</ClayLabel>
+                                    ))
+                                }
                             </ClayCard.Caption>
                         </div>
                     </ClayCard.Row>
