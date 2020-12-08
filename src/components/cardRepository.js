@@ -63,14 +63,18 @@ export default function CardRepository({ type, repository, onHandleStar, onDelet
                                 </ClayCard.Row>
                                 <ClayCard.Row className="align-items-center">
                                     <ClayCard.Description displayType="title" className="mr-2">Last Commit</ClayCard.Description>
-                                    <ClayCard.Description displayType="text">{getTimeFromNow(repository.last_commit_date)}</ClayCard.Description>
+                                    <ClayCard.Description displayType="text">{getTimeFromNow(repository.last_commit_date, false)}</ClayCard.Description>
                                 </ClayCard.Row>
                                 <ClayCard.Row className="align-items-center">
                                     <ClayCard.Description displayType="title" className="mr-2">License</ClayCard.Description>
                                     <ClayCard.Description displayType="text">{repository.license && repository.license.name}</ClayCard.Description>
                                 </ClayCard.Row>
                                 <ClayCard.Caption>
-                                    {repository.language && <ClayLabel displayType="warning">{repository.language}</ClayLabel>}
+                                    {
+                                        repository.languages && Object.keys(repository.languages).map(_key => (
+                                            <ClayLabel key={_key} displayType="warning">{_key}</ClayLabel>
+                                        ))
+                                    }
                                 </ClayCard.Caption>
                             </section>
                         </div>
@@ -125,13 +129,13 @@ export default function CardRepository({ type, repository, onHandleStar, onDelet
                                 <div className="mr-4">
                                     <ClayCard.Row className="align-items-center">
                                         <ClayCard.Description displayType="title" className="mr-2">Age</ClayCard.Description>
-                                        <ClayCard.Description displayType="text">{repository.created_at}</ClayCard.Description>
+                                        <ClayCard.Description displayType="text">{getTimeFromNow(repository.created_at)}</ClayCard.Description>
                                     </ClayCard.Row>
                                 </div>
                                 <div className="mr-4">
                                     <ClayCard.Row className="align-items-center">
                                         <ClayCard.Description displayType="title" className="mr-2">Last Commit</ClayCard.Description>
-                                        <ClayCard.Description displayType="text">{repository.last_commit_date}</ClayCard.Description>
+                                        <ClayCard.Description displayType="text">{getTimeFromNow(repository.last_commit_date, false)}</ClayCard.Description>
                                     </ClayCard.Row>
                                 </div>
                                 <div className="mr-4">
@@ -153,7 +157,7 @@ export default function CardRepository({ type, repository, onHandleStar, onDelet
 
     return (
         <>
-            {type == 'list' ? cardList() : cardGrid()}
+            {type === 'list' ? cardList() : cardGrid()}
 
             {
                 showModalConfirmDelete && (

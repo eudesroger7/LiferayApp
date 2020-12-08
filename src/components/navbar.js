@@ -117,7 +117,7 @@ export default function Navbar({ search, setSearch, onAdd, onFilterByFavorite, o
                     <li className="dropdown nav-item">
                         <ClayDropDown
                             trigger={<button className="btn btn-unstyled nav-btn nav-btn-monospaced mx-2">
-                                <ClayIcon symbol={listMode == 'grid' ? 'cards2' : 'cards-full'} />
+                                <ClayIcon symbol={listMode === 'grid' ? 'cards2' : 'cards-full'} />
                             </button>}
                             active={menuListModeActive}
                             onActiveChange={setMenuListModeActive}

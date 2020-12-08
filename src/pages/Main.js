@@ -69,7 +69,7 @@ export default function Main() {
             <div className="container full-width pt-3">
                 <div className="row">
                     {repositories.map(_repository => (
-                        <div key={_repository.id} className={listMode == 'list' ? 'col-12' : 'col-md-4'}>
+                        <div key={_repository.id} className={listMode === 'list' ? 'col-12' : 'col-md-4'}>
                             <CardRepo
                                 key={_repository.id}
                                 type={listMode}

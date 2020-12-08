@@ -2,7 +2,7 @@ import "@clayui/css/lib/css/atlas.css";
 import ClayCard from '@clayui/card';
 import ClayForm, { ClayInput } from '@clayui/form';
 import { useState } from 'react';
-import { getRepository, store } from '../services/repositories';
+import { exist, getRepository, store } from '../services/repositories';
 import { api } from '../services/api';
 import ClayIcon from '@clayui/icon';
 
@@ -19,12 +19,18 @@ export default function AddRepository({ onAdd, onCancel }) {
         try {
             const responseRepository = await getRepository(repositoryName);
             let repository = responseRepository.data;
-            const responseCommits = await api.get(responseRepository.data.commits_url.replace('{/sha}', ''));
-            repository.last_commit = (responseCommits.data && responseCommits.data.length > 0) ? responseCommits.data[0] : {};
-            repository.last_commit_date = repository.last_commit.commit ? repository.last_commit.commit.author.date : null;
-            store(repository);
-            setRepositoryName('');
-            onAdd();
+            if (!exist(repository.id)) {
+                const responseCommits = await api.get(responseRepository.data.commits_url.replace('{/sha}', ''));
+                repository.last_commit = (responseCommits.data && responseCommits.data.length > 0) ? responseCommits.data[0] : {};
+                repository.last_commit_date = repository.last_commit.commit ? repository.last_commit.commit.author.date : null;
+                const responseLanguages = await api.get(responseRepository.data.languages_url);
+                repository.languages = responseLanguages.data;
+                store(repository);
+                setRepositoryName('');
+                onAdd();
+            } else {
+                setErrorMessage('Repository already exists');
+            }
         } catch (error) {
             setErrorMessage(error.message.includes('404') ? 'Repository not found' : 'Api error');
         }
