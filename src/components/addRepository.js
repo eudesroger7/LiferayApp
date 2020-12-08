@@ -52,6 +52,7 @@ export default function AddRepository({ onAdd, onCancel }) {
                                 value={repositoryName}
                                 onChange={handleChange}
                                 required
+                                autoComplete="off"
                             />
                         </ClayForm.Group>
                     </ClayCard.Row>

@@ -1,6 +1,6 @@
 import "@clayui/css/lib/css/atlas.css";
 import ClayDropDown from '@clayui/drop-down';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { ClayInput } from '@clayui/form';
 import AddRepository from './AddRepository';
 import ClayManagementToolbar from '@clayui/management-toolbar';

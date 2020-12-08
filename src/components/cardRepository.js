@@ -1,11 +1,12 @@
 import "@clayui/css/lib/css/atlas.css";
 import ClayCard from '@clayui/card';
 import ClayLabel from '@clayui/label';
-import { isFavorite, markAsFavorite, unmarkAsFavorite } from '../utils/utils';
+import { isFavorite, markAsFavorite, unmarkAsFavorite } from '../services/favorites';
 import { destroy } from '../services/repositories';
 import ModalConfirmDelete from './ModalConfirmDelete';
 import { useState } from 'react';
 import ClayIcon from '@clayui/icon';
+import { getTimeFromNow } from '../utils/utils';
 
 export default function CardRepository({ type, repository, onHandleStar, onDelete }) {
 
@@ -58,11 +59,11 @@ export default function CardRepository({ type, repository, onHandleStar, onDelet
                                 </ClayCard.Row>
                                 <ClayCard.Row className="align-items-center">
                                     <ClayCard.Description displayType="title" className="mr-2">Age</ClayCard.Description>
-                                    <ClayCard.Description displayType="text">{repository.created_at}</ClayCard.Description>
+                                    <ClayCard.Description displayType="text">{getTimeFromNow(repository.created_at)}</ClayCard.Description>
                                 </ClayCard.Row>
                                 <ClayCard.Row className="align-items-center">
                                     <ClayCard.Description displayType="title" className="mr-2">Last Commit</ClayCard.Description>
-                                    <ClayCard.Description displayType="text">{repository.last_commit_date}</ClayCard.Description>
+                                    <ClayCard.Description displayType="text">{getTimeFromNow(repository.last_commit_date)}</ClayCard.Description>
                                 </ClayCard.Row>
                                 <ClayCard.Row className="align-items-center">
                                     <ClayCard.Description displayType="title" className="mr-2">License</ClayCard.Description>
